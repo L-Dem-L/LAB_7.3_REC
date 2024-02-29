@@ -1,7 +1,6 @@
 #include <iostream>
 #include <iomanip>
 #include <time.h>
-#include <Windows.h>
 
 using namespace std;
 
@@ -101,9 +100,6 @@ void changeRows(int** a, int rowCount, int colCount, int j, int i)
 int main()
 {
     srand((unsigned)time(NULL));
-
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
 
     int Low = -10;
     int High = 10;
