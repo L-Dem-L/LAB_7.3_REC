@@ -1,15 +1,9 @@
 #include <iostream>
 #include <iomanip>
 #include <time.h>
+#include <Windows.h>
 
 using namespace std;
-
-void CreateRow(int** a, const int rowNo, const int N, const int Low, const int High, int colNo);
-void CreateRows(int** a, const int N, const int K, const int Low, const int High, int rowNo);
-void PrintRow(int** a, const int rowNo, const int N, int colNo);
-void PrintRows(int** a, const int N, const int K, int rowNo);
-void Change(int** a, int colCount, int row1, int row2, int i);
-void changeRows(int** a, int rowCount, int colCount, int j, int i);
 
 void CreateRow(int** a, const int rowNo, const int N, const int Low, const int High, int colNo)
 {
@@ -18,11 +12,11 @@ void CreateRow(int** a, const int rowNo, const int N, const int Low, const int H
         CreateRow(a, rowNo, N, Low, High, colNo + 1);
 }
 
-void CreateRows(int** a, const int N, const int K, const int Low, const int High, int rowNo)
+void CreateRows(int** a, const int K, const int N, const int Low, const int High, int rowNo)
 {
-    CreateRow(a, rowNo, K, Low, High, 0);
-    if (rowNo < N - 1)
-        CreateRows(a, N, K, Low, High, rowNo + 1);
+    CreateRow(a, rowNo, N, Low, High, 0);
+    if (rowNo < K - 1)
+        CreateRows(a, K, N, Low, High, rowNo + 1);
 }
 
 void PrintRow(int** a, const int rowNo, const int N, int colNo)
@@ -34,11 +28,11 @@ void PrintRow(int** a, const int rowNo, const int N, int colNo)
         cout << endl;
 }
 
-void PrintRows(int** a, const int N, const int K, int rowNo)
+void PrintRows(int** a, const int K, const int N, int rowNo)
 {
-    PrintRow(a, rowNo, K, 0);
-    if (rowNo < N - 1)
-        PrintRows(a, N, K, rowNo + 1);
+    PrintRow(a, rowNo, N, 0);
+    if (rowNo < K - 1)
+        PrintRows(a, K, N, rowNo + 1);
     else
         cout << endl;
 }
@@ -108,6 +102,9 @@ int main()
 {
     srand((unsigned)time(NULL));
 
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+
     int Low = -10;
     int High = 10;
     int rowCount;
@@ -123,16 +120,16 @@ int main()
         a[i] = new int[colCount];
 
     CreateRows(a, rowCount, colCount, Low, High, 0);
-    PrintRows(a, colCount, rowCount, 0);
+    PrintRows(a, rowCount, colCount, 0);
 
     int zeroColumn = firstZeroColumn(a, rowCount, colCount, 0, 0, -1);
     if (zeroColumn != -1)
-        cout << "First 0 in column: " << zeroColumn + 1 << endl;
+        cout << "Fixed 0 in column" << zeroColumn + 1 << endl;
     else
         cout << "There`re no zero elements in the matrix" << endl;
 
     changeRows(a, rowCount, colCount, 0, 0);
-    PrintRows(a, colCount, rowCount, 0);
+    PrintRows(a, rowCount, colCount, 0);
 
     for (int i = 0; i < rowCount; i++)
         delete[] a[i];
